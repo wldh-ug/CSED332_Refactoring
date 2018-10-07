@@ -11,7 +11,7 @@ Instruction
 
 Answer to Q1
 ============
-We found the following code smell(s): **Duplicated Node Logging**, **Duplicated Accounting Logging**, **Duplicated Parameter Parsing**
+We found the following code smell(s): **Duplicated Node Logging**, **Duplicated Accounting Logging**, **Duplicated Parameter Parsing**  
 
 Here are some example(s) of each code smell: 
 
@@ -119,6 +119,8 @@ Here are some example(s) of each code smell:
 
             ...
         ```
+
+Several duplications on `printOn`, `printHTMLOn`, `printXMLOn` method will be fixed later (Q4).  
 
 Answer to Q2
 ============
