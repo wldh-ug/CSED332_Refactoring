@@ -11,11 +11,11 @@ Instruction
 
 Answer to Q1
 ============
-We found the following code smell(s): `Duplicated Node Logging`
+We found the following code smell(s): **Duplicated Node Logging**, **Duplicated Accounting Logging**
 
 Here are some example(s) of each code smell: 
 
-- Name: **`Duplicated Node Logging`**
+- Name: **Duplicated Node Logging**
 
     * Example 1: Four logging lines are duplicated two times in `requestWorkstationPrintsDocument` method.
   
@@ -55,6 +55,38 @@ Here are some example(s) of each code smell:
         report.write(currentNode.name);
         report.write("' passes packet on.\n");
         report.flush();
+        ```
+
+- Name: **Duplicated Accounting Logging**
+
+    * Example: 7 logging lines are duplicated two times in `printDocument` method.
+  
+        ```java
+        if (document.message.startsWith("!PS")) {
+            
+            ...
+
+            report.write("\tAccounting -- author = '");
+            report.write(author);
+            report.write("' -- title = '");
+            report.write(title);
+            report.write("'\n");
+            report.write(">>> Postscript job delivered.\n\n");
+            report.flush();
+        } else {
+            title = "ASCII DOCUMENT";
+            if (document.message.length() >= 16) {
+                author = document.message.substring(8, 16);
+            }
+
+            report.write("\tAccounting -- author = '");
+            report.write(author);
+            report.write("' -- title = '");
+            report.write(title);
+            report.write("'\n");
+            report.write(">>> ASCII Print job delivered.\n\n");
+            report.flush();
+        }
         ```
 
 Answer to Q2
