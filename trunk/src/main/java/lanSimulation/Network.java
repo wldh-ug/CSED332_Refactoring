@@ -78,9 +78,7 @@ public class Network {
 		network.workstations.put(wsFilip.name, wsFilip);
 		network.workstations.put(wsHans.name, wsHans);
 		network.firstNode = wsFilip;
-		System.out.println("qwert");
 		assert network.consistentNetwork();
-		System.out.println("qwert");
 
 		return network;
 	}
@@ -122,7 +120,7 @@ public class Network {
 		enumeration = workstations.elements();
 		while (enumeration.hasMoreElements()) {
 			currentNode = enumeration.nextElement();
-			if (currentNode instanceof Workstation) {
+			if (!(currentNode instanceof Workstation)) {
 				return false;
 			}
 		}
