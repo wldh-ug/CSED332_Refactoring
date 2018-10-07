@@ -205,6 +205,8 @@ Here are some example(s) of each code smell:
         }
         ```
 
+A method `printDocument` was only called at once in method `requestWorkstationPrintsDocument` so that we inlined method `printDocument` in it.
+
 Answer to Q3
 ============
 We found the following code smell(s): <CODE_SMELL_NAME_1>, <CODE_SMELL_NAME_2>...
