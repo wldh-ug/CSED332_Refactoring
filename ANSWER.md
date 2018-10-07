@@ -209,11 +209,13 @@ Also, a method `printDocument` was only called at once in method `requestWorksta
 
 Answer to Q3
 ============
-We found the following code smell(s): <CODE_SMELL_NAME_1>, <CODE_SMELL_NAME_2>...
+We found the following code smell(s): _**NOPE**_
 
-Here are some example(s) of each code smell:
-(same as Q1)
+We were in agony for a long time, but we concluded that there is no meaningful refactorable factors. So we didn't eliminate navigation code.
 
+The only good point which can be attained by extracting boolean conditions of `while` to a method we thought is that *extracting it to a method makes converting `origin` and `destination` public variables to private ones able, so it is good for object capsulation*. But test codes from [LANTest.java](./src/test/java/lanSimulation/test/LANTest.java) uses those variables as public, so we couldn't do anything.  
+
+Finally, rather, we decided to consider just making long code short meaningful.  
 
 Answer to Q4
 ============
