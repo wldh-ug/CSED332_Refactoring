@@ -219,7 +219,6 @@ public class Network {
 			// just ignore
 		}
 
-		boolean result = false;
 		Node startNode, currentNode;
 		Packet packet = new Packet(document, workstation, printer);
 
@@ -234,7 +233,17 @@ public class Network {
 		}
 
 		if (packet.destination.equals(currentNode.name)) {
-			result = printDocument(currentNode, packet, report);
+			if (currentNode.type == Node.PRINTER) {
+				packet.writeReport(report);
+				return true;
+			} else {
+				try {
+					report.write(">>> Destination is not a printer, print job canceled.\n\n");
+					report.flush();
+				} catch (IOException exc) {
+					// just ignore
+				}
+			}
 		} else {
 			try {
 				report.write(">>> Destination not found, print job canceled.\n\n");
@@ -242,27 +251,10 @@ public class Network {
 			} catch (IOException exc) {
 				// just ignore
 			}
-
-			result = false;
 		}
 
-		return result;
-	}
+		return false;
 
-	private boolean printDocument(Node printer, Packet document, Writer report) {
-		
-		if (printer.type == Node.PRINTER) {
-			document.writeReport(report);
-			return true;
-		} else {
-			try {
-				report.write(">>> Destination is not a printer, print job canceled.\n\n");
-				report.flush();
-			} catch (IOException exc) {
-				// just ignore
-			}
-			return false;
-		}
 	}
 
 	/**
