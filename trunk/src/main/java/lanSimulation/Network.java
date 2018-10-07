@@ -164,8 +164,8 @@ public class Network {
 	public void nodeReport(Writer report, Node node, String description) {
 		try {
 			report.write("\tNode '");
-			report.write(node.name);
-			report.write(description);
+			report.write(node.name + "' ");
+			report.write(description + ".\n");
 			report.flush();
 		} catch (IOException exc) {
 			// just ignore
@@ -194,8 +194,8 @@ public class Network {
 		Node currentNode = firstNode;
 		Packet packet = new Packet("BROADCAST", firstNode.name, firstNode.name);
 		do {
-			nodeReport(report, currentNode, "' accepts broadcast packet.\n");
-			nodeReport(report, currentNode, "' passes packet on.\n");
+			nodeReport(report, currentNode, "accepts broadcast packet");
+			nodeReport(report, currentNode, "passes packet on");
 			currentNode = currentNode.nextNode;
 		} while (!packet.destination.equals(currentNode.name));
 
@@ -244,11 +244,11 @@ public class Network {
 
 		startNode = workstations.get(workstation);
 
-		nodeReport(report, startNode, "' passes packet on.\n");
+		nodeReport(report, startNode, "passes packet on");
 
 		currentNode = startNode.nextNode;
 		while ((!packet.destination.equals(currentNode.name)) & (!packet.origin.equals(currentNode.name))) {
-			nodeReport(report, currentNode, "' passes packet on.\n");
+			nodeReport(report, currentNode, "passes packet on");
 			currentNode = currentNode.nextNode;
 		}
 
@@ -284,7 +284,7 @@ public class Network {
 			report.write("' -- title = '");
 			report.write(title);
 			report.write("'\n");
-			report.write(description);
+			report.write(">>> " + description + " job delivered.\n\n");
 			report.flush();
 		} catch (IOException exc) {
 			// just ignore
@@ -321,7 +321,7 @@ public class Network {
 				author = getInfo(document.message, "author", "Unknown");
 				title = getInfo(document.message, "title", "Untitled");
 
-				accountingReport(report, author, title, ">>> Postscript job delivered.\n\n");
+				accountingReport(report, author, title, "Postscript");
 			} else {
 				title = "ASCII DOCUMENT";
 				author = "Unknown";
@@ -329,7 +329,7 @@ public class Network {
 					author = document.message.substring(8, 16);
 				}
 
-				accountingReport(report, author, title, ">>> ASCII Print job delivered.\n\n");
+				accountingReport(report, author, title, "ASCII Print");
 			}
 
 			return true;
