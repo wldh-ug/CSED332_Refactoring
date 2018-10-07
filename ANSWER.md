@@ -205,7 +205,7 @@ Here are some example(s) of each code smell:
         }
         ```
 
-A method `printDocument` was only called at once in method `requestWorkstationPrintsDocument` so that we inlined method `printDocument` in it.
+Also, a method `printDocument` was only called at once in method `requestWorkstationPrintsDocument`, so that we inlined method `printDocument` in it.
 
 Answer to Q3
 ============
