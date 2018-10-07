@@ -178,7 +178,7 @@ public class Network {
 			currentNode.writeReport(report, "accepts broadcast packet");
 			currentNode.writeReport(report, "passes packet on");
 			currentNode = currentNode.nextNode;
-		} while (!packet.destination.equals(currentNode.name));
+		} while (!packet.isDestination(currentNode));
 
 		try {
 			report.write(">>> Broadcast traveled whole token ring.\n\n");
@@ -227,12 +227,12 @@ public class Network {
 		startNode.writeReport(report, "passes packet on");
 
 		currentNode = startNode.nextNode;
-		while ((!packet.destination.equals(currentNode.name)) & (!packet.origin.equals(currentNode.name))) {
+		while ((!packet.isDestination(currentNode)) & (!packet.isOrigin(currentNode))) {
 			currentNode.writeReport(report, "passes packet on");
 			currentNode = currentNode.nextNode;
 		}
 
-		if (packet.destination.equals(currentNode.name)) {
+		if (packet.isDestination(currentNode)) {
 			if (currentNode.type == Node.PRINTER) {
 				packet.writeReport(report);
 				return true;

@@ -56,6 +56,24 @@ public class Packet {
 		origin = _origin;
 		destination = _destination;
 	}
+	
+	/**
+	 * Check whether a node is the destination node
+	 * @param node A node that has to be checked
+	 * @return Truth value that whether a node is the destination node
+	 */
+	public Boolean isDestination(Node node) {
+		return destination.equals(node.name);
+	}
+	
+	/**
+	 * Check whether a node is the origin node
+	 * @param node A node that has to be checked
+	 * @return Truth value that whether a node is the origin node
+	 */
+	public Boolean isOrigin(Node node) {
+		return origin.equals(node.name);
+	}
 
 	/**
 	 * Write a report of the given accounting with description.
