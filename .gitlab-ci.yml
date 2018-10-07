@@ -1,0 +1,3 @@
+build:
+  script:
+  -  cd trunk; mvn test
