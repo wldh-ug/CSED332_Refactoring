@@ -19,9 +19,12 @@
  */
 package lanSimulation.internals;
 
+import java.io.IOException;
+import java.io.Writer;
+
 /**
- * A <em>Node</em> represents a single Node in a Local Area Network (LAN).
- * Several types of Nodes exist.
+ * A <em>Node</em> represents a single Node in a Local Area Network (LAN). Several types of Nodes
+ * exist.
  */
 public class Node {
 	// enumeration constants specifying all legal node types
@@ -72,6 +75,22 @@ public class Node {
 		type = _type;
 		name = _name;
 		nextNode = _nextNode;
+	}
+
+	/**
+	 * Write a log report with given description and Writer.
+	 * 
+	 * @param report      Stream that will hold a report about what happened when handling the
+	 *                    request.
+	 * @param description Brief description about report
+	 */
+	public void writeReport(Writer report, String description) {
+		try {
+			report.write("\tNode '" + name + "' " + description + ".\n");
+			report.flush();
+		} catch (IOException exc) {
+			// just ignore
+		}
 	}
 
 }

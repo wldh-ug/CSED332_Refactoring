@@ -19,9 +19,11 @@
  */
 package lanSimulation.internals;
 
+import java.io.IOException;
+import java.io.Writer;
+
 /**
- * A <em>Packet</em> represents a unit of information to be sent over the Local
- * Area Network (LAN).
+ * A <em>Packet</em> represents a unit of information to be sent over the Local Area Network (LAN).
  */
 public class Packet {
 	/**
@@ -53,6 +55,59 @@ public class Packet {
 		message = _message;
 		origin = _origin;
 		destination = _destination;
+	}
+
+	/**
+	 * Write a report of the given accounting with description.
+	 * 
+	 * @param report      Stream that will hold a report about what happened when handling the
+	 *                    request.
+	 */
+	public void writeReport(Writer report) {
+		String author, title, docType;
+
+		if (message.startsWith("!PS")) {
+			author = getPSInfo("author", "Unknown");
+			title = getPSInfo("title", "Untitled");
+			docType = "Postscript";
+		} else {
+			title = "ASCII DOCUMENT";
+			if (message.length() >= 16) {
+				author = message.substring(8, 16);
+			} else {
+				author = "Unknown";
+			}
+			docType = "ASCII Print";
+		}
+
+		try {
+			report.write("\tAccounting -- author = '" + author + "' -- title = '" + title + "'\n");
+			report.write(">>> " + docType + " job delivered.\n\n");
+			report.flush();
+		} catch (IOException exc) {
+			// just ignore
+		}
+	}
+
+	/**
+	 * Get information with given key when type is !PS.
+	 * 
+	 * @param data         Key of data
+	 * @param defaultValue Default value that is used when no value found
+	 * @return Acquired value data
+	 */
+	public String getPSInfo(String data, String defaultValue) {
+		int startPos = 0, endPos = 0;
+
+		startPos = message.indexOf(data + ":");
+		if (startPos >= 0) {
+			endPos = message.indexOf(".", startPos + data.length() + 1);
+			if (endPos < 0) {
+				endPos = message.length();
+			}
+			return message.substring(startPos + data.length() + 1, endPos);
+		}
+		return defaultValue;
 	}
 
 }

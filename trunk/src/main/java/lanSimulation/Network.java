@@ -154,25 +154,6 @@ public class Network {
 	}
 
 	/**
-	 * Write a log report of the given node with description.
-	 * 
-	 * @param report      Stream that will hold a report about what happened when
-	 *                    handling the request.
-	 * @param node        Node that has to be reported
-	 * @param description Brief description about report
-	 */
-	public void nodeReport(Writer report, Node node, String description) {
-		try {
-			report.write("\tNode '");
-			report.write(node.name + "' ");
-			report.write(description + ".\n");
-			report.flush();
-		} catch (IOException exc) {
-			// just ignore
-		}
-	}
-
-	/**
 	 * The #receiver is requested to broadcast a message to all nodes. Therefore
 	 * #receiver sends a special broadcast packet across the token ring network,
 	 * which should be treated by all nodes.
@@ -194,8 +175,8 @@ public class Network {
 		Node currentNode = firstNode;
 		Packet packet = new Packet("BROADCAST", firstNode.name, firstNode.name);
 		do {
-			nodeReport(report, currentNode, "accepts broadcast packet");
-			nodeReport(report, currentNode, "passes packet on");
+			currentNode.writeReport(report, "accepts broadcast packet");
+			currentNode.writeReport(report, "passes packet on");
 			currentNode = currentNode.nextNode;
 		} while (!packet.destination.equals(currentNode.name));
 
@@ -244,11 +225,11 @@ public class Network {
 
 		startNode = workstations.get(workstation);
 
-		nodeReport(report, startNode, "passes packet on");
+		startNode.writeReport(report, "passes packet on");
 
 		currentNode = startNode.nextNode;
 		while ((!packet.destination.equals(currentNode.name)) & (!packet.origin.equals(currentNode.name))) {
-			nodeReport(report, currentNode, "passes packet on");
+			currentNode.writeReport(report, "passes packet on");
 			currentNode = currentNode.nextNode;
 		}
 
@@ -268,70 +249,10 @@ public class Network {
 		return result;
 	}
 
-	/**
-	 * Write a report of the given accounting with description.
-	 * 
-	 * @param report      Stream that will hold a report about what happened when
-	 *                    handling the request.
-	 * @param author      A string of author
-	 * @param title       A string of title
-	 * @param description Brief description about report
-	 */
-	public void accountingReport(Writer report, String author, String title, String description) {
-		try {
-			report.write("\tAccounting -- author = '");
-			report.write(author);
-			report.write("' -- title = '");
-			report.write(title);
-			report.write("'\n");
-			report.write(">>> " + description + " job delivered.\n\n");
-			report.flush();
-		} catch (IOException exc) {
-			// just ignore
-		}
-	}
-	
-	/**
-	 * Get info. of either author or title.
-	 * @param message Document body
-	 * @param data Key of data
-	 * @param defaultValue Default value that is used when no value found
-	 * @return
-	 */
-	public String getInfo(String message, String data, String defaultValue) {
-		int startPos = 0, endPos = 0;
-
-		startPos = message.indexOf(data + ":");
-		if (startPos >= 0) {
-			endPos = message.indexOf(".", startPos + data.length() + 1);
-			if (endPos < 0) {
-				endPos = message.length();
-			}
-			return message.substring(startPos + data.length() + 1, endPos);
-		}
-		return defaultValue;
-	}
-
 	private boolean printDocument(Node printer, Packet document, Writer report) {
-		String author;
-		String title;
 		
 		if (printer.type == Node.PRINTER) {
-			if (document.message.startsWith("!PS")) {
-				author = getInfo(document.message, "author", "Unknown");
-				title = getInfo(document.message, "title", "Untitled");
-
-				accountingReport(report, author, title, "Postscript");
-			} else {
-				title = "ASCII DOCUMENT";
-				author = "Unknown";
-				if (document.message.length() >= 16) {
-					author = document.message.substring(8, 16);
-				}
-
-				accountingReport(report, author, title, "ASCII Print");
-			}
-
+			document.writeReport(report);
 			return true;
 		} else {
 			try {
