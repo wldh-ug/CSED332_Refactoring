@@ -11,7 +11,7 @@ Instruction
 
 Answer to Q1
 ============
-We found the following code smell(s): **Duplicated Node Logging**, **Duplicated Accounting Logging**
+We found the following code smell(s): **Duplicated Node Logging**, **Duplicated Accounting Logging**, **Duplicated Parameter Parsing**
 
 Here are some example(s) of each code smell: 
 
@@ -87,6 +87,37 @@ Here are some example(s) of each code smell:
             report.write(">>> ASCII Print job delivered.\n\n");
             report.flush();
         }
+        ```
+
+- Name: **Duplicated Parameter Parsing**
+
+    * Example: In `printDocument` method, the code part of parsing `author` and `title` from `document.message` is duplicated. In addition, this code is hard to know its function by just looking, so we extracted this as a method.
+  
+        ```java
+        if (document.message.startsWith("!PS")) {
+            startPos = document.message.indexOf("author:");
+            if (startPos >= 0) {
+                endPos = document.message.indexOf(".", startPos + 7);
+                if (endPos < 0) {
+                    endPos = document.message.length();
+                }
+
+                author = document.message.substring(startPos + 7, endPos);
+            }
+
+            startPos = document.message.indexOf("title:");
+            if (startPos >= 0) {
+                endPos = document.message.indexOf(".", startPos + 6);
+                if (endPos < 0) {
+                    endPos = document.message.length();
+                }
+                title = document.message.substring(startPos + 6, endPos);
+            }
+
+            accountingReport(report, author, title, ">>> Postscript job delivered.\n\n");
+        } else {
+
+            ...
         ```
 
 Answer to Q2
