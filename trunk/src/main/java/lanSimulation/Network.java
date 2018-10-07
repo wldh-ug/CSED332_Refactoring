@@ -153,6 +153,26 @@ public class Network {
 		// not all workstations are registered all verifications succeeded
 		return true;
 	}
+	
+	/**
+	 * Write a log report of the given node with description.
+	 * 
+	 * @param report
+	 * 			  Stream that will hold a report about what happened when
+	 *            handling the request.
+	 * @param node Node that has to be reported
+	 * @param description Brief description about report
+	 */
+	public void nodeReport(Writer report, Node node, String description) {
+		try {
+			report.write("\tNode '");
+			report.write(node.name);
+			report.write(description);
+			report.flush();
+		} catch (IOException exc) {
+			// just ignore
+		}
+	}
 
 	/**
 	 * The #receiver is requested to broadcast a message to all nodes. Therefore
@@ -177,18 +197,8 @@ public class Network {
 		Node currentNode = firstNode;
 		Packet packet = new Packet("BROADCAST", firstNode.name, firstNode.name);
 		do {
-			try {
-				report.write("\tNode '");
-				report.write(currentNode.name);
-				report.write("' accepts broadcast packet.\n");
-				report.write("\tNode '");
-				report.write(currentNode.name);
-				report.write("' passes packet on.\n");
-				report.flush();
-			} catch (IOException exc) {
-				// just ignore
-			}
-
+			nodeReport(report, currentNode, "' accepts broadcast packet.\n");
+			nodeReport(report, currentNode, "' passes packet on.\n");
 			currentNode = currentNode.nextNode;
 		} while (!packet.destination.equals(currentNode.name));
 
@@ -241,27 +251,12 @@ public class Network {
 
 		startNode = workstations.get(workstation);
 
-		try {
-			report.write("\tNode '");
-			report.write(startNode.name);
-			report.write("' passes packet on.\n");
-			report.flush();
-		} catch (IOException exc) {
-			// just ignore
-		}
+		nodeReport(report, startNode, "' passes packet on.\n");
 
 		currentNode = startNode.nextNode;
 		while ((!packet.destination.equals(currentNode.name))
 				& (!packet.origin.equals(currentNode.name))) {
-			try {
-				report.write("\tNode '");
-				report.write(currentNode.name);
-				report.write("' passes packet on.\n");
-				report.flush();
-			} catch (IOException exc) {
-				// just ignore
-			}
-
+			nodeReport(report, currentNode, "' passes packet on.\n");
 			currentNode = currentNode.nextNode;
 		}
 
