@@ -92,5 +92,52 @@ public class Node {
 			// just ignore
 		}
 	}
+	
+	public void bufferAppend(StringBuffer buf, Boolean isXML) {
+		if(isXML) {
+			switch (this.type) {
+			case Node.NODE:
+				buf.append("<node>");
+				buf.append(this.name);
+				buf.append("</node>");
+				break;
+			case Node.WORKSTATION:
+				buf.append("<workstation>");
+				buf.append(this.name);
+				buf.append("</workstation>");
+				break;
+			case Node.PRINTER:
+				buf.append("<printer>");
+				buf.append(this.name);
+				buf.append("</printer>");
+				break;
+			default:
+				buf.append("<unknown></unknown>");
+				break;
+			}
+		}
+		else {
+			switch (this.type) {
+			case Node.NODE:
+				buf.append("Node ");
+				buf.append(this.name);
+				buf.append(" [Node]");
+				break;
+			case Node.WORKSTATION:
+				buf.append("Workstation ");
+				buf.append(this.name);
+				buf.append(" [Workstation]");
+				break;
+			case Node.PRINTER:
+				buf.append("Printer ");
+				buf.append(this.name);
+				buf.append(" [Printer]");
+				break;
+			default:
+				buf.append("(Unexpected)");
+				break;
+			}
+		}
+	}
 
 }

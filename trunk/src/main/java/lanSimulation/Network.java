@@ -272,26 +272,7 @@ public class Network {
 	public void printOn(StringBuffer buf) {
 		Node currentNode = firstNode;
 		do {
-			switch (currentNode.type) {
-			case Node.NODE:
-				buf.append("Node ");
-				buf.append(currentNode.name);
-				buf.append(" [Node]");
-				break;
-			case Node.WORKSTATION:
-				buf.append("Workstation ");
-				buf.append(currentNode.name);
-				buf.append(" [Workstation]");
-				break;
-			case Node.PRINTER:
-				buf.append("Printer ");
-				buf.append(currentNode.name);
-				buf.append(" [Printer]");
-				break;
-			default:
-				buf.append("(Unexpected)");
-				break;
-			}
+			currentNode.bufferAppend(buf, false);
 			buf.append(" -> ");
 			currentNode = currentNode.nextNode;
 		} while (currentNode != firstNode);
@@ -308,26 +289,7 @@ public class Network {
 		buf.append("\n\n<UL>");
 		do {
 			buf.append("\n\t<LI> ");
-			switch (currentNode.type) {
-			case Node.NODE:
-				buf.append("Node ");
-				buf.append(currentNode.name);
-				buf.append(" [Node]");
-				break;
-			case Node.WORKSTATION:
-				buf.append("Workstation ");
-				buf.append(currentNode.name);
-				buf.append(" [Workstation]");
-				break;
-			case Node.PRINTER:
-				buf.append("Printer ");
-				buf.append(currentNode.name);
-				buf.append(" [Printer]");
-				break;
-			default:
-				buf.append("(Unexpected)");
-				break;
-			}
+			currentNode.bufferAppend(buf, false);
 			buf.append(" </LI>");
 			currentNode = currentNode.nextNode;
 		} while (currentNode != firstNode);
@@ -343,26 +305,7 @@ public class Network {
 		buf.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<network>");
 		do {
 			buf.append("\n\t");
-			switch (currentNode.type) {
-			case Node.NODE:
-				buf.append("<node>");
-				buf.append(currentNode.name);
-				buf.append("</node>");
-				break;
-			case Node.WORKSTATION:
-				buf.append("<workstation>");
-				buf.append(currentNode.name);
-				buf.append("</workstation>");
-				break;
-			case Node.PRINTER:
-				buf.append("<printer>");
-				buf.append(currentNode.name);
-				buf.append("</printer>");
-				break;
-			default:
-				buf.append("<unknown></unknown>");
-				break;
-			}
+			currentNode.bufferAppend(buf, true);
 			currentNode = currentNode.nextNode;
 		} while (currentNode != firstNode);
 		buf.append("\n</network>");
