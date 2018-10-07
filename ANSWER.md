@@ -211,7 +211,7 @@ Answer to Q3
 ============
 We found the following code smell(s): _**NOPE**_
 
-We were in agony for a long time, but we concluded that there is no meaningful refactorable factors. So we didn't eliminate navigation code.
+**We were in agony for a long time**, but we concluded that there is no meaningful refactorable factors. So we didn't eliminate navigation code.
 
 The only good point which can be attained by extracting boolean conditions of `while` to a method we thought is that *extracting it to a method makes converting `origin` and `destination` public variables to private ones able, so it is good for object capsulation*. But test codes from [LANTest.java](./src/test/java/lanSimulation/test/LANTest.java) uses those variables as public, so we couldn't do anything.  
 
@@ -219,7 +219,121 @@ Finally, rather, we decided to consider just making long code short meaningful.
 
 Answer to Q4
 ============
-We found the following code smell(s): <CODE_SMELL_NAME_1>, <CODE_SMELL_NAME_2>...
+We found the following code smell(s): **Smells on Node Type**
 
 Here are some example(s) of each code smell:
-(same as Q1)
+
+- Name: **Smells on Node Type**
+
+    * Example 1: In `printOn` method, there were a lot of duplicated code.
+
+        ```java
+        ...
+
+        switch (currentNode.type) {
+        case Node.NODE:
+            buf.append("Node ");
+            buf.append(currentNode.name);
+            buf.append(" [Node]");
+            break;
+        case Node.WORKSTATION:
+            buf.append("Workstation ");
+            buf.append(currentNode.name);
+            buf.append(" [Workstation]");
+            break;
+        case Node.PRINTER:
+            buf.append("Printer ");
+            buf.append(currentNode.name);
+            buf.append(" [Printer]");
+            break;
+        default:
+            buf.append("(Unexpected)");
+            break;
+        }
+        
+        ...
+        ```
+    
+    * Example 2: In `printHTMLOn` method, there were a lot of duplicated code which are almost same with above.
+
+        ```java
+        ...
+
+        switch (currentNode.type) {
+        case Node.NODE:
+            buf.append("Node ");
+            buf.append(currentNode.name);
+            buf.append(" [Node]");
+            break;
+        case Node.WORKSTATION:
+            buf.append("Workstation ");
+            buf.append(currentNode.name);
+            buf.append(" [Workstation]");
+            break;
+        case Node.PRINTER:
+            buf.append("Printer ");
+            buf.append(currentNode.name);
+            buf.append(" [Printer]");
+            break;
+        default:
+            buf.append("(Unexpected)");
+            break;
+        }
+
+        ...
+        ```
+
+    * Example 3: In `printXMLOn` method, there were a lot of duplicated code which are almost same with above.
+
+        ```java
+        ...
+
+        switch (currentNode.type) {
+        case Node.NODE:
+            buf.append("<node>");
+            buf.append(currentNode.name);
+            buf.append("</node>");
+            break;
+        case Node.WORKSTATION:
+            buf.append("<workstation>");
+            buf.append(currentNode.name);
+            buf.append("</workstation>");
+            break;
+        case Node.PRINTER:
+            buf.append("<printer>");
+            buf.append(currentNode.name);
+            buf.append("</printer>");
+            break;
+        default:
+            buf.append("<unknown></unknown>");
+            break;
+        }
+
+        ...
+        ```
+
+    * Example 4: There was a lot of type checking of Node existed. Below example is from `consistentNetwork` method.
+
+        ```java
+        ...
+
+        while (!encountered.containsKey(currentNode.name)) {
+            encountered.put(currentNode.name, currentNode);
+            if (currentNode.type == Node.WORKSTATION) {
+                workstationsFound++;
+            }
+            if (currentNode.type == Node.PRINTER) {
+                printersFound++;
+            }
+            currentNode = currentNode.nextNode;
+        }
+
+        ...
+        ```
+
+In this assignment, we didn't want to modify test code, but final Q4 required us to remove `type` attribute from `Node` class, so we were forced to change test code. In other words, we didn't do refactoring in previous questions (Q1 to Q3) if it requires changing of test code.  
+
+<br>
+<br>
+---
+*This code is evil... We want to rewrite whole the code rather than refactoring...*
