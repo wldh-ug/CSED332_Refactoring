@@ -3,12 +3,26 @@ package lanSimulation.internals;
 
 public class Printer extends Node {
 	
-	public Printer(byte _type, String _name) {
-		super(_type, _name);
+	public Printer(String _name) {
+		super(_name);
 	}
 	
-	public Printer(byte _type, String _name, Node _nextNode) {
-		super(_type, _name, _nextNode);
+	public Printer(String _name, Node _nextNode) {
+		super(_name, _nextNode);
+	}
+	
+	@Override
+	public void bufferAppend(StringBuffer buf, Boolean isXML) {
+		if(isXML) {
+			buf.append("<printer>");
+			buf.append(this.name);
+			buf.append("</printer>");
+		}
+		else {
+			buf.append("Printer ");
+			buf.append(this.name);
+			buf.append(" [Printer]");
+		}
 	}
 	
 }

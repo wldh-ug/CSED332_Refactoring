@@ -29,23 +29,6 @@ import java.io.Writer;
 public class Node {
 	// enumeration constants specifying all legal node types
 	/**
-	 * A node with type NODE has only basic functionality.
-	 */
-	public static final byte NODE = 0;
-	/**
-	 * A node with type WORKSTATION may initiate requests on the LAN.
-	 */
-	public static final byte WORKSTATION = 1;
-	/**
-	 * A node with type PRINTER may accept packages to be printed.
-	 */
-	public static final byte PRINTER = 2;
-
-	/**
-	 * Holds the type of the Node.
-	 */
-	public byte type;
-	/**
 	 * Holds the name of the Node.
 	 */
 	public String name;
@@ -59,9 +42,7 @@ public class Node {
 	/**
 	 * Construct a <em>Node</em> with given #type and #name.
 	 */
-	public Node(byte _type, String _name) {
-		assert (_type >= NODE) & (_type <= PRINTER);
-		type = _type;
+	public Node(String _name) {
 		name = _name;
 		nextNode = null;
 	}
@@ -70,9 +51,7 @@ public class Node {
 	 * Construct a <em>Node</em> with given #type and #name, and which is linked
 	 * to #nextNode.
 	 */
-	public Node(byte _type, String _name, Node _nextNode) {
-		assert (_type >= NODE) & (_type <= PRINTER);
-		type = _type;
+	public Node(String _name, Node _nextNode) {
 		name = _name;
 		nextNode = _nextNode;
 	}
@@ -95,48 +74,14 @@ public class Node {
 	
 	public void bufferAppend(StringBuffer buf, Boolean isXML) {
 		if(isXML) {
-			switch (this.type) {
-			case Node.NODE:
-				buf.append("<node>");
-				buf.append(this.name);
-				buf.append("</node>");
-				break;
-			case Node.WORKSTATION:
-				buf.append("<workstation>");
-				buf.append(this.name);
-				buf.append("</workstation>");
-				break;
-			case Node.PRINTER:
-				buf.append("<printer>");
-				buf.append(this.name);
-				buf.append("</printer>");
-				break;
-			default:
-				buf.append("<unknown></unknown>");
-				break;
-			}
+			buf.append("<node>");
+			buf.append(this.name);
+			buf.append("</node>");
 		}
 		else {
-			switch (this.type) {
-			case Node.NODE:
-				buf.append("Node ");
-				buf.append(this.name);
-				buf.append(" [Node]");
-				break;
-			case Node.WORKSTATION:
-				buf.append("Workstation ");
-				buf.append(this.name);
-				buf.append(" [Workstation]");
-				break;
-			case Node.PRINTER:
-				buf.append("Printer ");
-				buf.append(this.name);
-				buf.append(" [Printer]");
-				break;
-			default:
-				buf.append("(Unexpected)");
-				break;
-			}
+			buf.append("Node ");
+			buf.append(this.name);
+			buf.append(" [Node]");
 		}
 	}
 

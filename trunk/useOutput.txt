@@ -1,5 +1,5 @@
 ---------------------------------ASCII------------------------------------------
-Workstation Filip [Workstation] -> Node n1 [Node] -> Workstation Hans [Workstation] -> Printer Andy [Printer] ->  ... 
+Node Filip [Node] -> Node n1 [Node] -> Node Hans [Node] -> Node Andy [Node] ->  ... 
 
 ---------------------------------HTML------------------------------------------
 <HTML>
@@ -10,10 +10,10 @@ Workstation Filip [Workstation] -> Node n1 [Node] -> Workstation Hans [Workstati
 <H1>LAN SIMULATION</H1>
 
 <UL>
-	<LI> Workstation Filip [Workstation] </LI>
+	<LI> Node Filip [Node] </LI>
 	<LI> Node n1 [Node] </LI>
-	<LI> Workstation Hans [Workstation] </LI>
-	<LI> Printer Andy [Printer] </LI>
+	<LI> Node Hans [Node] </LI>
+	<LI> Node Andy [Node] </LI>
 	<LI>...</LI>
 </UL>
 
@@ -25,10 +25,10 @@ Workstation Filip [Workstation] -> Node n1 [Node] -> Workstation Hans [Workstati
 <?xml version="1.0" encoding="UTF-8"?>
 
 <network>
-	<workstation>Filip</workstation>
+	<node>Filip</node>
 	<node>n1</node>
-	<workstation>Hans</workstation>
-	<printer>Andy</printer>
+	<node>Hans</node>
+	<node>Andy</node>
 </network>
 
 ---------------------------------SCENARIO: Print Success --------------------------

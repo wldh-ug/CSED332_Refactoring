@@ -203,8 +203,8 @@ public class LANTest {
 	public void testBasicNode() {
 		Node node;
 
-		node = new Node(Node.NODE, "n");
-		assertEquals(node.type, Node.NODE, "type");
+		node = new Node("n");
+		assertTrue(node instanceof Node);
 		assertEquals(node.name, "n", "name");
 		assertEquals(node.nextNode, null, "nextNode");
 		node.nextNode = node;

@@ -65,10 +65,10 @@ public class Network {
 	public static Network DefaultExample() {
 		Network network = new Network(2);
 
-		Node wsFilip = new Node(Node.WORKSTATION, "Filip");
-		Node n1 = new Node(Node.NODE, "n1");
-		Node wsHans = new Node(Node.WORKSTATION, "Hans");
-		Node prAndy = new Node(Node.PRINTER, "Andy");
+		Node wsFilip = new Workstation("Filip");
+		Node n1 = new Node("n1");
+		Node wsHans = new Workstation("Hans");
+		Node prAndy = new Printer("Andy");
 
 		wsFilip.nextNode = n1;
 		n1.nextNode = wsHans;
@@ -78,8 +78,10 @@ public class Network {
 		network.workstations.put(wsFilip.name, wsFilip);
 		network.workstations.put(wsHans.name, wsHans);
 		network.firstNode = wsFilip;
-
+		System.out.println("qwert");
 		assert network.consistentNetwork();
+		System.out.println("qwert");
+
 		return network;
 	}
 
@@ -94,7 +96,7 @@ public class Network {
 		if (n == null) {
 			return false;
 		} else {
-			return n.type == Node.WORKSTATION;
+			return n instanceof Workstation;
 		}
 	}
 
@@ -120,7 +122,7 @@ public class Network {
 		enumeration = workstations.elements();
 		while (enumeration.hasMoreElements()) {
 			currentNode = enumeration.nextElement();
-			if (currentNode.type != Node.WORKSTATION) {
+			if (currentNode instanceof Workstation) {
 				return false;
 			}
 		}
@@ -130,10 +132,10 @@ public class Network {
 		currentNode = firstNode;
 		while (!encountered.containsKey(currentNode.name)) {
 			encountered.put(currentNode.name, currentNode);
-			if (currentNode.type == Node.WORKSTATION) {
+			if (currentNode instanceof Workstation) {
 				workstationsFound++;
 			}
-			if (currentNode.type == Node.PRINTER) {
+			if (currentNode instanceof Printer) {
 				printersFound++;
 			}
 			currentNode = currentNode.nextNode;
@@ -233,7 +235,7 @@ public class Network {
 		}
 
 		if (packet.isDestination(currentNode)) {
-			if (currentNode.type == Node.PRINTER) {
+			if (currentNode instanceof Printer) {
 				packet.writeReport(report);
 				return true;
 			} else {
