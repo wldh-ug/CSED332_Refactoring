@@ -290,36 +290,41 @@ public class Network {
 			// just ignore
 		}
 	}
-
-	private boolean printDocument(Node printer, Packet document, Writer report) {
-		String author = "Unknown";
-		String title = "Untitled";
+	
+	/**
+	 * Get info. of either author or title.
+	 * @param message Document body
+	 * @param data Key of data
+	 * @param defaultValue Default value that is used when no value found
+	 * @return
+	 */
+	public String getInfo(String message, String data, String defaultValue) {
 		int startPos = 0, endPos = 0;
 
+		startPos = message.indexOf(data + ":");
+		if (startPos >= 0) {
+			endPos = message.indexOf(".", startPos + data.length() + 1);
+			if (endPos < 0) {
+				endPos = message.length();
+			}
+			return message.substring(startPos + data.length() + 1, endPos);
+		}
+		return defaultValue;
+	}
+
+	private boolean printDocument(Node printer, Packet document, Writer report) {
+		String author;
+		String title;
+		
 		if (printer.type == Node.PRINTER) {
 			if (document.message.startsWith("!PS")) {
-				startPos = document.message.indexOf("author:");
-				if (startPos >= 0) {
-					endPos = document.message.indexOf(".", startPos + 7);
-					if (endPos < 0) {
-						endPos = document.message.length();
-					}
-
-					author = document.message.substring(startPos + 7, endPos);
-				}
-
-				startPos = document.message.indexOf("title:");
-				if (startPos >= 0) {
-					endPos = document.message.indexOf(".", startPos + 6);
-					if (endPos < 0) {
-						endPos = document.message.length();
-					}
-					title = document.message.substring(startPos + 6, endPos);
-				}
+				author = getInfo(document.message, "author", "Unknown");
+				title = getInfo(document.message, "title", "Untitled");
 
 				accountingReport(report, author, title, ">>> Postscript job delivered.\n\n");
 			} else {
 				title = "ASCII DOCUMENT";
+				author = "Unknown";
 				if (document.message.length() >= 16) {
 					author = document.message.substring(8, 16);
 				}
