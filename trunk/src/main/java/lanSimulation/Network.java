@@ -33,13 +33,13 @@ import java.io.*;
  */
 public class Network {
 	/**
-	 * Holds a pointer to some "first" node in the token ring. Used to ensure
-	 * that various printing operations return expected behaviour.
+	 * Holds a pointer to some "first" node in the token ring. Used to ensure that
+	 * various printing operations return expected behaviour.
 	 */
 	private Node firstNode;
 	/**
-	 * Maps the names of workstations on the actual workstations. Used to
-	 * initiate the requests for the network.
+	 * Maps the names of workstations on the actual workstations. Used to initiate
+	 * the requests for the network.
 	 */
 	private Hashtable<String, Node> workstations;
 
@@ -100,16 +100,15 @@ public class Network {
 
 	/**
 	 * Answer whether #receiver is a consistent token ring network. A consistent
-	 * token ring network - contains at least one workstation and one printer -
-	 * is circular - all registered workstations are on the token ring - all
+	 * token ring network - contains at least one workstation and one printer - is
+	 * circular - all registered workstations are on the token ring - all
 	 * workstations on the token ring are registered.
 	 */
 	public boolean consistentNetwork() {
 		Enumeration<Node> enumeration;
 		Node currentNode;
 		int printersFound = 0, workstationsFound = 0;
-		Hashtable<String, Node> encountered = new Hashtable<String, Node>(
-				workstations.size() * 2, 1.0f);
+		Hashtable<String, Node> encountered = new Hashtable<String, Node>(workstations.size() * 2, 1.0f);
 
 		if (workstations.isEmpty()) {
 			return false;
@@ -153,14 +152,13 @@ public class Network {
 		// not all workstations are registered all verifications succeeded
 		return true;
 	}
-	
+
 	/**
 	 * Write a log report of the given node with description.
 	 * 
-	 * @param report
-	 * 			  Stream that will hold a report about what happened when
-	 *            handling the request.
-	 * @param node Node that has to be reported
+	 * @param report      Stream that will hold a report about what happened when
+	 *                    handling the request.
+	 * @param node        Node that has to be reported
 	 * @param description Brief description about report
 	 */
 	public void nodeReport(Writer report, Node node, String description) {
@@ -179,11 +177,10 @@ public class Network {
 	 * #receiver sends a special broadcast packet across the token ring network,
 	 * which should be treated by all nodes.
 	 * 
-	 * @param report
-	 *            Stream that will hold a report about what happened when
-	 *            handling the request.
-	 * @return Answer #true when the broadcast operation was successful and
-	 *         #false otherwise
+	 * @param report Stream that will hold a report about what happened when
+	 *               handling the request.
+	 * @return Answer #true when the broadcast operation was successful and #false
+	 *         otherwise
 	 */
 	public boolean requestBroadcast(Writer report) {
 		assert consistentNetwork();
@@ -212,25 +209,21 @@ public class Network {
 	}
 
 	/**
-	 * The #receiver is requested by #workstation to print #document on
-	 * #printer. Therefore #receiver sends a packet across the token ring
-	 * network, until either (1) #printer is reached or (2) the packet traveled
-	 * complete token ring.
+	 * The #receiver is requested by #workstation to print #document on #printer.
+	 * Therefore #receiver sends a packet across the token ring network, until
+	 * either (1) #printer is reached or (2) the packet traveled complete token
+	 * ring.
 	 * 
-	 * @param workstation
-	 *            Name of the workstation requesting the service.
-	 * @param document
-	 *            Contents that should be printed on the printer.
-	 * @param printer
-	 *            Name of the printer that should receive the document.
-	 * @param report
-	 *            Stream that will hold a report about what happened when
-	 *            handling the request.
+	 * @param workstation Name of the workstation requesting the service.
+	 * @param document    Contents that should be printed on the printer.
+	 * @param printer     Name of the printer that should receive the document.
+	 * @param report      Stream that will hold a report about what happened when
+	 *                    handling the request.
 	 * @return Answer #true when the print operation was successful and #false
 	 *         otherwise
 	 */
-	public boolean requestWorkstationPrintsDocument(String workstation,
-			String document, String printer, Writer report) {
+	public boolean requestWorkstationPrintsDocument(String workstation, String document, String printer,
+			Writer report) {
 		assert consistentNetwork() & hasWorkstation(workstation);
 
 		try {
@@ -254,8 +247,7 @@ public class Network {
 		nodeReport(report, startNode, "' passes packet on.\n");
 
 		currentNode = startNode.nextNode;
-		while ((!packet.destination.equals(currentNode.name))
-				& (!packet.origin.equals(currentNode.name))) {
+		while ((!packet.destination.equals(currentNode.name)) & (!packet.origin.equals(currentNode.name))) {
 			nodeReport(report, currentNode, "' passes packet on.\n");
 			currentNode = currentNode.nextNode;
 		}
@@ -276,60 +268,65 @@ public class Network {
 		return result;
 	}
 
+	/**
+	 * Write a report of the given accounting with description.
+	 * 
+	 * @param report      Stream that will hold a report about what happened when
+	 *                    handling the request.
+	 * @param author      A string of author
+	 * @param title       A string of title
+	 * @param description Brief description about report
+	 */
+	public void accountingReport(Writer report, String author, String title, String description) {
+		try {
+			report.write("\tAccounting -- author = '");
+			report.write(author);
+			report.write("' -- title = '");
+			report.write(title);
+			report.write("'\n");
+			report.write(description);
+			report.flush();
+		} catch (IOException exc) {
+			// just ignore
+		}
+	}
+
 	private boolean printDocument(Node printer, Packet document, Writer report) {
 		String author = "Unknown";
 		String title = "Untitled";
 		int startPos = 0, endPos = 0;
 
 		if (printer.type == Node.PRINTER) {
-			try {
-				if (document.message.startsWith("!PS")) {
-					startPos = document.message.indexOf("author:");
-					if (startPos >= 0) {
-						endPos = document.message.indexOf(".", startPos + 7);
-						if (endPos < 0) {
-							endPos = document.message.length();
-						}
-
-						author = document.message.substring(startPos + 7,
-								endPos);
+			if (document.message.startsWith("!PS")) {
+				startPos = document.message.indexOf("author:");
+				if (startPos >= 0) {
+					endPos = document.message.indexOf(".", startPos + 7);
+					if (endPos < 0) {
+						endPos = document.message.length();
 					}
 
-					startPos = document.message.indexOf("title:");
-					if (startPos >= 0) {
-						endPos = document.message.indexOf(".", startPos + 6);
-						if (endPos < 0) {
-							endPos = document.message.length();
-						}
-						title = document.message
-								.substring(startPos + 6, endPos);
-					}
-
-					report.write("\tAccounting -- author = '");
-					report.write(author);
-					report.write("' -- title = '");
-					report.write(title);
-					report.write("'\n");
-					report.write(">>> Postscript job delivered.\n\n");
-					report.flush();
-				} else {
-					title = "ASCII DOCUMENT";
-					if (document.message.length() >= 16) {
-						author = document.message.substring(8, 16);
-					}
-
-					report.write("\tAccounting -- author = '");
-					report.write(author);
-					report.write("' -- title = '");
-					report.write(title);
-					report.write("'\n");
-					report.write(">>> ASCII Print job delivered.\n\n");
-					report.flush();
+					author = document.message.substring(startPos + 7, endPos);
 				}
 
-			} catch (IOException exc) {
-				// just ignore
+				startPos = document.message.indexOf("title:");
+				if (startPos >= 0) {
+					endPos = document.message.indexOf(".", startPos + 6);
+					if (endPos < 0) {
+						endPos = document.message.length();
+					}
+					title = document.message.substring(startPos + 6, endPos);
+				}
+
+				accountingReport(report, author, title, ">>> Postscript job delivered.\n\n");
+			} else {
+				title = "ASCII DOCUMENT";
+				if (document.message.length() >= 16) {
+					author = document.message.substring(8, 16);
+				}
+
+				accountingReport(report, author, title, ">>> ASCII Print job delivered.\n\n");
 			}
+
 			return true;
 		} else {
 			try {
