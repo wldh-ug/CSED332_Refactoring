@@ -336,4 +336,5 @@ In this assignment, we didn't want to modify test code, but final Q4 required us
 <br>
 <br>
 ---
-*This code is evil... We want to rewrite whole the code rather than refactoring...*
+*This code is evil... We want to rewrite whole the code rather than refactoring...*  
+*S..T...A...Y....*  
