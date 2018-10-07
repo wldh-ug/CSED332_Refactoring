@@ -1,7 +1,7 @@
 Pair Information
 ================
- - Your Name 1 (Your HEMOS ID 1)
- - Your Name 2 (Your HEMOS ID 2)
+ - Changhoon Kang (chkang)
+ - Jio Gim (iknowme)
 
 Instruction
 ============
