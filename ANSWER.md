@@ -1,7 +1,7 @@
 Pair Information
 ================
- - Changhoon Kang (chkang)
- - Jio Gim (iknowme)
+ - Changhoon Kang ([chkang](mailto:chkang@postech.edu))
+ - Jio Gim ([iknowme](mailto:iknowme@postech.edu))
 
 Instruction
 ============
@@ -11,40 +11,51 @@ Instruction
 
 Answer to Q1
 ============
-We found the following code smell(s): <CODE_SMELL_NAME_1>, <CODE_SMELL_NAME_2>...
+We found the following code smell(s): `Duplicated Node Logging`
 
 Here are some example(s) of each code smell: 
 
-- Name: <CODE_SMELL_NAME_1>
+- Name: **`Duplicated Node Logging`**
 
-  * Example 1: <EXPLANATION_FOR_EXAMPLE_1>
+    * Example 1: Four logging lines are duplicated two times in `requestWorkstationPrintsDocument` method.
   
-  ```
-CODE_OF_EXAMPLE_1
-  ```
+        ```java
+        try {
+            report.write("\tNode '");
+            report.write(startNode.name);
+            report.write("' passes packet on.\n");
+            report.flush();
+        } catch (IOException exc) {
+            // just ignore
+        }
 
-  * Example 2: <EXPLANATION_FOR_EXAMPLE_2>
+        currentNode = startNode.nextNode;
+        while ((!packet.destination.equals(currentNode.name))
+            & (!packet.origin.equals(currentNode.name))) {
+            try {
+                report.write("\tNode '");
+                report.write(currentNode.name);
+                report.write("' passes packet on.\n");
+                report.flush();
+            } catch (IOException exc) {
+                // just ignore
+            }
 
-  ```
-CODE_OF_EXAMPLE_2
-```
+            currentNode = currentNode.nextNode;
+        }
+        ```
 
-...
-	
-- Name: <CODE_SMELL_NAME_2>
+    * Example 2: Similar logging line with above occurs two times in `requestBroadcast` method.
 
-  * Example 1: <EXPLANATION_FOR_EXAMPLE_1>
-
-  ```
-	<CODE_OF_EXAMPLE_1>
-```
-
-  * Example 2: <EXPLANATION_FOR_EXAMPLE_2>
-
-  ```
-	<CODE_OF_EXAMPLE_2>
-
-...
+        ```java
+        report.write("\tNode '");
+        report.write(currentNode.name);
+        report.write("' accepts broadcast packet.\n");
+        report.write("\tNode '");
+        report.write(currentNode.name);
+        report.write("' passes packet on.\n");
+        report.flush();
+        ```
 
 Answer to Q2
 ============
