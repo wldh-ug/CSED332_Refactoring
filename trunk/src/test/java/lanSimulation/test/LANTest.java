@@ -1,21 +1,20 @@
-/*   This file is part of lanSimulation.
+/*
+ * This file is part of lanSimulation.
  *
- *   lanSimulation is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * lanSimulation is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  *
- *   lanSimulation is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ * lanSimulation is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with lanSimulation; if not, write to the Free Software
- *   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * You should have received a copy of the GNU General Public License along with lanSimulation; if
+ * not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA
  *
- *   Copyright original Java version: 2004 Bart Du Bois, Serge Demeyer
- *   Copyright C++ version: 2006 Matthias Rieger, Bart Van Rompaey
+ * Copyright original Java version: 2004 Bart Du Bois, Serge Demeyer Copyright C++ version: 2006
+ * Matthias Rieger, Bart Van Rompaey
  */
 package lanSimulation.test;
 
@@ -23,16 +22,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.Test;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
-
-
+import org.junit.jupiter.api.Test;
 import lanSimulation.Network;
 import lanSimulation.internals.Node;
 import lanSimulation.internals.Packet;
@@ -46,9 +41,9 @@ public class LANTest {
 		packet = new Packet("c", "a");
 		assertEquals("c", packet.message, "message");
 		assertEquals("a", packet.destination, "destination");
-		assertEquals("", packet.origin, "origin" );
+		assertEquals("", packet.origin, "origin");
 		packet.origin = "o";
-		assertEquals("o", packet.origin, "origin (after setting)" );
+		assertEquals("o", packet.origin, "origin (after setting)");
 	}
 
 	private boolean compareFiles(String filename1, String filename2) {
@@ -105,7 +100,8 @@ public class LANTest {
 	}
 
 	private void YOUMAYWANTTOtestCompareFiles() {
-		String fName1 = "testCompare1.txt", fName2 = "testCompare2.txt", fName3 = "testCompare3.txt", fName4 = "testCompare4.txt";
+		String fName1 = "testCompare1.txt", fName2 = "testCompare2.txt",
+				fName3 = "testCompare3.txt", fName4 = "testCompare4.txt";
 		FileWriter f1, f2, f3, f4;
 
 		try {
@@ -216,9 +212,9 @@ public class LANTest {
 		Network network = Network.DefaultExample();
 
 		assertTrue(network.consistentNetwork(), "consistentNetwork ");
-		assertEquals("Workstation Filip [Workstation] -> Node n1 [Node] -> Workstation Hans [Workstation] -> Printer Andy [Printer] ->  ... ",
-				network.toString(),
-				"DefaultNetwork.toString()");
+		assertEquals(
+				"Workstation Filip [Workstation] -> Node n1 [Node] -> Workstation Hans [Workstation] -> Printer Andy [Printer] ->  ... ",
+				network.toString(), "DefaultNetwork.toString()");
 	}
 
 	@Test
@@ -226,24 +222,19 @@ public class LANTest {
 		Network network = Network.DefaultExample();
 		StringWriter report = new StringWriter(500);
 
-		assertTrue(network.requestWorkstationPrintsDocument(
-				"Filip", "Hello World", "Andy", report),
+		assertTrue(network.requestWorkstationPrintsDocument("Filip", "Hello World", "Andy", report),
 				"PrintSuccess ");
-		assertFalse(network.requestWorkstationPrintsDocument(
-				"Filip","Hello World", "UnknownPrinter", report),
-				"PrintFailure (UnkownPrinter) ");
-		assertFalse(network.requestWorkstationPrintsDocument(
-				"Filip","Hello World", "Hans", report),
+		assertFalse(network.requestWorkstationPrintsDocument("Filip", "Hello World",
+				"UnknownPrinter", report), "PrintFailure (UnkownPrinter) ");
+		assertFalse(
+				network.requestWorkstationPrintsDocument("Filip", "Hello World", "Hans", report),
 				"PrintFailure (print on Workstation) ");
-		assertFalse(network.requestWorkstationPrintsDocument(
-				"Filip","Hello World", "n1", report),
+		assertFalse(network.requestWorkstationPrintsDocument("Filip", "Hello World", "n1", report),
 				"PrintFailure (print on Node) ");
-		assertTrue(network.requestWorkstationPrintsDocument(
-				"Filip","!PS Hello World in postscript", "Andy", report),
-				"PrintSuccess Postscript");
-		assertFalse(network.requestWorkstationPrintsDocument(
-				"Filip","!PS Hello World in postscript", "Hans", report),
-				"PrintFailure Postscript");
+		assertTrue(network.requestWorkstationPrintsDocument("Filip",
+				"!PS Hello World in postscript", "Andy", report), "PrintSuccess Postscript");
+		assertFalse(network.requestWorkstationPrintsDocument("Filip",
+				"!PS Hello World in postscript", "Hans", report), "PrintFailure Postscript");
 	}
 
 	@Test
@@ -255,13 +246,12 @@ public class LANTest {
 	}
 
 	/**
-	 * Test whether output routines work as expected. This is done by comparing
-	 * generating output on a file "useOutput.txt" and comparing it to a file
-	 * "expectedOutput.txt". On a first run this test might break because the
-	 * file "expectedOutput.txt" does not exist. Then just run the test, verify
-	 * manually whether "useOutput.txt" conforms to the expected output and if
-	 * it does rename "useOutput.txt" in "expectedOutput.txt". From then on the
-	 * tests should work as expected.
+	 * Test whether output routines work as expected. This is done by comparing generating output on
+	 * a file "useOutput.txt" and comparing it to a file "expectedOutput.txt". On a first run this
+	 * test might break because the file "expectedOutput.txt" does not exist. Then just run the
+	 * test, verify manually whether "useOutput.txt" conforms to the expected output and if it does
+	 * rename "useOutput.txt" in "expectedOutput.txt". From then on the tests should work as
+	 * expected.
 	 */
 	@Test
 	public void testOutput() {
@@ -274,37 +264,44 @@ public class LANTest {
 		try {
 			generateOutput = new FileWriter(generateOutputFName);
 		} catch (IOException f2exc) {
-			assertTrue(false, "Could not create '" + generateOutputFName + "'" );
+			assertTrue(false, "Could not create '" + generateOutputFName + "'");
 			return;
 		}
 
 		try {
-			buf.append("---------------------------------ASCII------------------------------------------\n");
+			buf.append(
+					"---------------------------------ASCII------------------------------------------\n");
 			network.printOn(buf);
-			buf.append("\n\n---------------------------------HTML------------------------------------------\n");
+			buf.append(
+					"\n\n---------------------------------HTML------------------------------------------\n");
 			network.printHTMLOn(buf);
-			buf.append("\n\n---------------------------------XML------------------------------------------\n");
+			buf.append(
+					"\n\n---------------------------------XML------------------------------------------\n");
 			network.printXMLOn(buf);
 			generateOutput.write(buf.toString());
-			report.write("\n\n---------------------------------SCENARIO: Print Success --------------------------\n");
-			network.requestWorkstationPrintsDocument("Filip", "Hello World",
+			report.write(
+					"\n\n---------------------------------SCENARIO: Print Success --------------------------\n");
+			network.requestWorkstationPrintsDocument("Filip", "Hello World", "Andy", report);
+			report.write(
+					"\n\n---------------------------------SCENARIO: PrintFailure (UnkownPrinter) ------------\n");
+			network.requestWorkstationPrintsDocument("Filip", "Hello World", "UnknownPrinter",
+					report);
+			report.write(
+					"\n\n---------------------------------SCENARIO: PrintFailure (print on Workstation) -----\n");
+			network.requestWorkstationPrintsDocument("Filip", "Hello World", "Hans", report);
+			report.write(
+					"\n\n---------------------------------SCENARIO: PrintFailure (print on Node) -----\n");
+			network.requestWorkstationPrintsDocument("Filip", "Hello World", "n1", report);
+			report.write(
+					"\n\n---------------------------------SCENARIO: Print Success Postscript-----------------\n");
+			network.requestWorkstationPrintsDocument("Filip", "!PS Hello World in postscript",
 					"Andy", report);
-			report.write("\n\n---------------------------------SCENARIO: PrintFailure (UnkownPrinter) ------------\n");
-			network.requestWorkstationPrintsDocument("Filip", "Hello World",
-					"UnknownPrinter", report);
-			report.write("\n\n---------------------------------SCENARIO: PrintFailure (print on Workstation) -----\n");
-			network.requestWorkstationPrintsDocument("Filip", "Hello World",
+			report.write(
+					"\n\n---------------------------------SCENARIO: Print Failure Postscript-----------------\n");
+			network.requestWorkstationPrintsDocument("Filip", "!PS Hello World in postscript",
 					"Hans", report);
-			report.write("\n\n---------------------------------SCENARIO: PrintFailure (print on Node) -----\n");
-			network.requestWorkstationPrintsDocument("Filip", "Hello World",
-					"n1", report);
-			report.write("\n\n---------------------------------SCENARIO: Print Success Postscript-----------------\n");
-			network.requestWorkstationPrintsDocument("Filip",
-					"!PS Hello World in postscript", "Andy", report);
-			report.write("\n\n---------------------------------SCENARIO: Print Failure Postscript-----------------\n");
-			network.requestWorkstationPrintsDocument("Filip",
-					"!PS Hello World in postscript", "Hans", report);
-			report.write("\n\n---------------------------------SCENARIO: Broadcast Success -----------------\n");
+			report.write(
+					"\n\n---------------------------------SCENARIO: Broadcast Success -----------------\n");
 			network.requestBroadcast(report);
 			generateOutput.write(report.toString());
 		} catch (IOException exc) {
@@ -322,11 +319,11 @@ public class LANTest {
 
 	@Test
 	public void testPreconditionViolation() {
-		assertThrows(AssertionError.class,() -> {
+		assertThrows(AssertionError.class, () -> {
 			Network network = Network.DefaultExample();
 			StringWriter report = new StringWriter(100);
-			network.requestWorkstationPrintsDocument("UnknownWorkstation",
-					"does not matter", "does not matter", report);
+			network.requestWorkstationPrintsDocument("UnknownWorkstation", "does not matter",
+					"does not matter", report);
 		});
 
 	}

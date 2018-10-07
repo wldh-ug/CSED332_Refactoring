@@ -1,21 +1,20 @@
-/*   This file is part of lanSimulation.
+/*
+ * This file is part of lanSimulation.
  *
- *   lanSimulation is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * lanSimulation is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  *
- *   lanSimulation is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ * lanSimulation is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with lanSimulation; if not, write to the Free Software
- *   Foundation, Inc. 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * You should have received a copy of the GNU General Public License along with lanSimulation; if
+ * not, write to the Free Software Foundation, Inc. 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA
  *
- *   Copyright original Java version: 2004 Bart Du Bois, Serge Demeyer
- *   Copyright C++ version: 2006 Matthias Rieger, Bart Van Rompaey
+ * Copyright original Java version: 2004 Bart Du Bois, Serge Demeyer Copyright C++ version: 2006
+ * Matthias Rieger, Bart Van Rompaey
  */
 package lanSimulation.internals;
 
@@ -48,8 +47,7 @@ public class Node {
 	}
 
 	/**
-	 * Construct a <em>Node</em> with given #type and #name, and which is linked
-	 * to #nextNode.
+	 * Construct a <em>Node</em> with given #type and #name, and which is linked to #nextNode.
 	 */
 	public Node(String _name, Node _nextNode) {
 		name = _name;
@@ -71,14 +69,13 @@ public class Node {
 			// just ignore
 		}
 	}
-	
+
 	public void bufferAppend(StringBuffer buf, Boolean isXML) {
-		if(isXML) {
+		if (isXML) {
 			buf.append("<node>");
 			buf.append(this.name);
 			buf.append("</node>");
-		}
-		else {
+		} else {
 			buf.append("Node ");
 			buf.append(this.name);
 			buf.append(" [Node]");

@@ -1,21 +1,20 @@
-/*   This file is part of lanSimulation.
+/*
+ * This file is part of lanSimulation.
  *
- *   lanSimulation is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * lanSimulation is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  *
- *   lanSimulation is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ * lanSimulation is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with lanSimulation; if not, write to the Free Software
- *   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * You should have received a copy of the GNU General Public License along with lanSimulation; if
+ * not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA
  *
- *   Copyright original Java version: 2004 Bart Du Bois, Serge Demeyer
- *   Copyright C++ version: 2006 Matthias Rieger, Bart Van Rompaey
+ * Copyright original Java version: 2004 Bart Du Bois, Serge Demeyer Copyright C++ version: 2006
+ * Matthias Rieger, Bart Van Rompaey
  */
 package lanSimulation.internals;
 
@@ -56,18 +55,20 @@ public class Packet {
 		origin = _origin;
 		destination = _destination;
 	}
-	
+
 	/**
 	 * Check whether a node is the destination node
+	 * 
 	 * @param node A node that has to be checked
 	 * @return Truth value that whether a node is the destination node
 	 */
 	public Boolean isDestination(Node node) {
 		return destination.equals(node.name);
 	}
-	
+
 	/**
 	 * Check whether a node is the origin node
+	 * 
 	 * @param node A node that has to be checked
 	 * @return Truth value that whether a node is the origin node
 	 */
@@ -78,8 +79,7 @@ public class Packet {
 	/**
 	 * Write a report of the given accounting with description.
 	 * 
-	 * @param report      Stream that will hold a report about what happened when handling the
-	 *                    request.
+	 * @param report Stream that will hold a report about what happened when handling the request.
 	 */
 	public void writeReport(Writer report) {
 		String author, title, docType;
